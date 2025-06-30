@@ -56,6 +56,21 @@
       </div>
     </section>
 
+<!-- Menu a tendina strumenti -->
+<select id="strumento" required>
+    <option value="">Seleziona strumento</option>
+    <option value="EUR/USD">EUR/USD</option>
+    <option value="XAU/USD">XAU/USD (Oro)</option>
+    <option value="BTC/USD">BTC/USD (Bitcoin)</option>
+    <option value="GBP/NZD">GBP/NZD</option>
+    <option value="EUR/CHF">EUR/CHF</option>
+    <option value="altro">Altro (inserisci manualmente)</option>
+</select>
+
+<!-- Campo per strumento personalizzato -->
+<input type="text" id="strumentoCustom" placeholder="Inserisci strumento" style="display:none;">
+
+    
     <!-- Sezione Registro -->
     <section class="card">
       <div class="card__header flex justify-between items-center">
@@ -79,22 +94,22 @@
           <button id="applyFilterBtn" class="btn btn--secondary btn--sm" style="align-self: flex-end;">Applica Filtri</button>
         </div>
         <div style="overflow-x: auto;">
-          <table id="tradeTable" class="trade-table" style="width: 100%; border-collapse: collapse;">
-            <thead>
-              <tr>
-                <th>Data/Ora</th>
-                <th>Strumento</th>
-                <th>TF</th>
-                <th>Segnale</th>
-                <th>Semaforo</th>
-                <th>Note</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+          <table id="registroTable">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Strumento</th>
+            <th>Timeframe</th>
+            <th>Segnale</th>
+            <th>Semaforo</th>
+            <th>Esito</th>
+            <th>Note</th>
+        </tr>
+    </thead>
+    <tbody id="registroBody">
+        <!-- Trade popolati dinamicamente -->
+    </tbody>
+</table>
 
     <!-- Sezione Statistiche -->
     <section class="card">
