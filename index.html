@@ -4,20 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Semaforo Trading - Master Pro TOCCO 2.0</title>
-    
-    <!-- Meta tag Open Graph per anteprima social -->
-    <meta property="og:title" content="Semaforo Trading - Master Pro TOCCO 2.0">
-    <meta property="og:description" content="Sistema di valutazione segnali trading con semaforo verde/giallo/rosso. Analizza Strength, Trend, Volume, Momentum e Risk/Reward.">
-    <meta property="og:image" content="https://tuonome.github.io/semaforo-trading/preview.jpg">
-    <meta property="og:url" content="https://tuonome.github.io/semaforo-trading">
-    <meta property="og:type" content="website">
-    
-    <!-- Meta tag Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Semaforo Trading - Master Pro TOCCO 2.0">
-    <meta name="twitter:description" content="Sistema di valutazione segnali trading professionale">
-    <meta name="twitter:image" content="https://tuonome.github.io/semaforo-trading/preview.jpg">
-    
     <style>
         * {
             margin: 0;
@@ -45,46 +31,17 @@
             background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
             padding: 30px;
+            text-align: center;
         }
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            max-width: 800px;
-            margin: 0 auto;
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
 
-        .header-logo {
-            height: 70px;
-            width: auto;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .header-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .header-text {
-            text-align: left;
-            flex: 1;
-        }
-
-        .header-text h1 {
-            margin: 0;
-            font-size: 2.8em;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header-text p {
-            margin: 8px 0 0 0;
-            font-size: 1.3em;
-            opacity: 0.95;
-            font-weight: 300;
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
         }
 
         .main-content {
@@ -401,7 +358,6 @@
             margin-top: 10px;
         }
 
-        /* Responsive Design per Mobile */
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -409,26 +365,8 @@
                 padding: 20px;
             }
 
-            .header-content {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-            
-            .header-text {
-                text-align: center;
-            }
-            
-            .header-logo {
-                height: 60px;
-            }
-
-            .header-text h1 {
-                font-size: 2.2em;
-            }
-
-            .header-text p {
-                font-size: 1.1em;
+            .header h1 {
+                font-size: 2em;
             }
 
             .statistiche {
@@ -443,36 +381,13 @@
                 margin: 2px 0;
             }
         }
-
-        @media (max-width: 480px) {
-            .header {
-                padding: 20px;
-            }
-
-            .header-logo {
-                height: 50px;
-            }
-
-            .header-text h1 {
-                font-size: 1.8em;
-            }
-
-            .header-text p {
-                font-size: 1em;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="header-content">
-                <img src="logo.png" alt="Logo Semaforo Trading" class="header-logo">
-                <div class="header-text">
-                    <h1>🚦 Semaforo Trading</h1>
-                    <p>Master Pro TOCCO 2.0 - Sistema di Valutazione Segnali</p>
-                </div>
-            </div>
+            <h1>🚦 Semaforo Trading</h1>
+            <p>Master Pro TOCCO 2.0 - Sistema di Valutazione Segnali</p>
         </div>
 
         <div class="main-content">
