@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scheda Semaforo Master Pro TOCCO 2.0</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="container py-16">
+    <h1>Scheda Semaforo Master Pro TOCCO 2.0</h1>
+  </header>
+
+  <main class="container flex flex-col gap-16">
+    <!-- Sezione Valutazione -->
+    <section class="card">
+      <div class="card__header">
+        <h2>Valutazione Corrente</h2>
+      </div>
+      <div id="parametersContainer" class="card__body flex flex-col gap-16"></div>
+      <div class="card__footer flex flex-col items-center gap-8">
+        <div id="semaphoreDisplay" class="status status--info big-semaphore">---</div>
+        <button id="resetBtn" class="btn btn--secondary">Reset Valutazione</button>
+      </div>
+    </section>
+
+    <!-- Sezione Dettagli Trade -->
+    <section class="card">
+      <div class="card__header">
+        <h2>Dettagli Trade</h2>
+      </div>
+      <div class="card__body">
+        <form id="tradeForm" class="flex flex-col gap-16">
+          <div class="form-group">
+            <label class="form-label" for="instrument">Strumento</label>
+            <input type="text" id="instrument" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="timeframe">Timeframe</label>
+            <input type="text" id="timeframe" class="form-control" placeholder="es. 1H" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="signalType">Tipo segnale</label>
+            <select id="signalType" class="form-control" required>
+              <option value="">Seleziona</option>
+              <option value="BUY">BUY</option>
+              <option value="SELL">SELL</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="note">Note</label>
+            <textarea id="note" rows="3" class="form-control"></textarea>
+          </div>
+          <button type="submit" id="saveTradeBtn" class="btn btn--primary btn--full-width" disabled>Salva Trade</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Sezione Registro -->
+    <section class="card">
+      <div class="card__header flex justify-between items-center">
+        <h2>Registro Trade</h2>
+        <button id="exportBtn" class="btn btn--outline btn--sm">Export CSV</button>
+      </div>
+      <div class="card__body flex flex-col gap-16">
+        <div class="flex gap-16 flex-wrap">
+          <div class="form-group">
+            <label class="form-label" for="filterStart">Da (data)</label>
+            <input type="date" id="filterStart" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filterEnd">A (data)</label>
+            <input type="date" id="filterEnd" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="filterInstrument">Strumento</label>
+            <input type="text" id="filterInstrument" class="form-control" placeholder="Filtro" />
+          </div>
+          <button id="applyFilterBtn" class="btn btn--secondary btn--sm" style="align-self: flex-end;">Applica Filtri</button>
+        </div>
+        <div style="overflow-x: auto;">
+          <table id="tradeTable" class="trade-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th>Data/Ora</th>
+                <th>Strumento</th>
+                <th>TF</th>
+                <th>Segnale</th>
+                <th>Semaforo</th>
+                <th>Note</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sezione Statistiche -->
+    <section class="card">
+      <div class="card__header">
+        <h2>Statistiche Semaforo</h2>
+      </div>
+      <div class="card__body flex flex-col items-center gap-16">
+        <div id="statsSummary" class="flex gap-16"></div>
+        <canvas id="statsChart" height="300" style="max-width: 400px;"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lib JS externi -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
