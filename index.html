@@ -3,809 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semaforo Trading - Optimus Prime</title>
-
-    <!-- ✅ Metatag Open Graph -->
-    <meta property="og:title" content="🚦 Semaforo Trading - Valutatore" />
-    <meta property="og:description" content="Optimus Prime - Valutatore dei segnali dell'indicatore" />
-    <meta property="og:image" content="https://i.imgur.com/xu7umMT.jpeg" />
-    <meta property="og:url" content="https://www.tuosito.com" />
-    <meta property="og:type" content="website" />
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            padding: 30px;
-        }
-
-        .semaforo-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            border: 2px solid #e9ecef;
-        }
-
-        .parametro {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            margin: 10px 0;
-            background: white;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .parametro-nome {
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .parametro-descrizione {
-            font-size: 0.9em;
-            color: #7f8c8d;
-            margin-top: 3px;
-        }
-
-        .parametro-controlli {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-parametro {
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-si {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-si:hover {
-            background: #2ecc71;
-            transform: scale(1.1);
-        }
-
-        .btn-no {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .btn-no:hover {
-            background: #c0392b;
-            transform: scale(1.1);
-        }
-
-        .btn-parametro.active {
-            transform: scale(1.2);
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
-        }
-
-        .risultato-semaforo {
-            text-align: center;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            font-size: 1.5em;
-            font-weight: bold;
-            transition: all 0.5s ease;
-        }
-
-        .verde {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-        }
-
-        .giallo {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white;
-        }
-
-        .rosso {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-        }
-
-        .grigio {
-            background: #ecf0f1;
-            color: #7f8c8d;
-        }
-
-        .form-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            border: 2px solid #e9ecef;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-        }
-
-        .btn-reset {
-            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .btn-reset:hover {
-            background: linear-gradient(135deg, #7f8c8d, #95a5a6);
-        }
-
-        .registro-section {
-            grid-column: 1 / -1;
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            border: 2px solid #e9ecef;
-            margin-top: 20px;
-        }
-
-        .registro-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .statistiche {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border-left: 4px solid #3498db;
-        }
-
-        .stat-numero {
-            font-size: 2em;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .stat-label {
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-
-        .tabella-container {
-            overflow-x: auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        th {
-            background: #f8f9fa;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        tr:hover {
-            background: #f8f9fa;
-        }
-
-        .esito-buttons {
-            display: flex;
-            gap: 5px;
-        }
-
-        .btn-esito {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8em;
-            transition: all 0.3s ease;
-        }
-
-        .btn-tp {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-sl {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .btn-be {
-            background: #f39c12;
-            color: white;
-        }
-
-        .btn-esito:hover {
-            transform: scale(1.05);
-        }
-
-        .btn-esito.active {
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
-
-        .trade-tp {
-            background-color: #d5f4e6 !important;
-        }
-
-        .trade-sl {
-            background-color: #fadbd8 !important;
-        }
-
-        .trade-be {
-            background-color: #fdeaa7 !important;
-        }
-
-        .btn-export {
-            background: linear-gradient(135deg, #16a085, #1abc9c);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-export:hover {
-            transform: translateY(-2px);
-        }
-
-        #strumentoCustom {
-            margin-top: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 20px;
-            }
-
-            .header h1 {
-                font-size: 2em;
-            }
-
-            .statistiche {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .esito-buttons {
-                flex-direction: column;
-            }
-
-            .btn-esito {
-                margin: 2px 0;
-            }
-        }
-    </style>
+    <title>Trading Strategy Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-        <div class="header">
-            <h1>🚦 Semaforo Trading</h1>
-            <p>Optimus Prime - Valutatore dei segnali dell'indicatore</p>
-        </div>
-
-        <div class="main-content">
-            <div class="semaforo-section">
-                <h2>📊 Valutazione Parametri</h2>
-                
-                <div class="parametro">
-                    <div>
-                        <div class="parametro-nome">Strength</div>
-                        <div class="parametro-descrizione">Forza del segnale ≥ 60%</div>
-                    </div>
-                    <div class="parametro-controlli">
-                        <button class="btn-parametro btn-si" onclick="setParametro('strength', true)">✓</button>
-                        <button class="btn-parametro btn-no" onclick="setParametro('strength', false)">✗</button>
-                    </div>
-                </div>
-
-                <div class="parametro">
-                    <div>
-                        <div class="parametro-nome">Trend</div>
-                        <div class="parametro-descrizione">BULL/BULL o BEAR/BEAR</div>
-                    </div>
-                    <div class="parametro-controlli">
-                        <button class="btn-parametro btn-si" onclick="setParametro('trend', true)">✓</button>
-                        <button class="btn-parametro btn-no" onclick="setParametro('trend', false)">✗</button>
-                    </div>
-                </div>
-
-                <div class="parametro">
-                    <div>
-                        <div class="parametro-nome">Volume</div>
-                        <div class="parametro-descrizione">High - Normal</div>
-                    </div>
-                    <div class="parametro-controlli">
-                        <button class="btn-parametro btn-si" onclick="setParametro('volume', true)">✓</button>
-                        <button class="btn-parametro btn-no" onclick="setParametro('volume', false)">✗</button>
-                    </div>
-                </div>
-
-                <div class="parametro">
-                    <div>
-                        <div class="parametro-nome">Market Phase</div>
-                        <div class="parametro-descrizione">In tranding</div>
-                    </div>
-                    <div class="parametro-controlli">
-                        <button class="btn-parametro btn-si" onclick="setParametro('momentum', true)">✓</button>
-                        <button class="btn-parametro btn-no" onclick="setParametro('momentum', false)">✗</button>
-                    </div>
-                </div>
-
-                <div class="parametro">
-                    <div>
-                        <div class="parametro-nome">Volatility</div>
-                        <div class="parametro-descrizione">Normal - Above AVG</div>
-                    </div>
-                    <div class="parametro-controlli">
-                        <button class="btn-parametro btn-si" onclick="setParametro('risk', true)">✓</button>
-                        <button class="btn-parametro btn-no" onclick="setParametro('risk', false)">✗</button>
-                    </div>
-                </div>
-
-                <div class="risultato-semaforo grigio" id="risultatoSemaforo">
-                    🚦 Valuta i parametri per vedere il risultato
-                </div>
-
-                <button class="btn-reset" onclick="resetParametri()">🔄 Reset Valutazione</button>
-            </div>
-
-            <div class="form-section">
-                <h2>📝 Dettagli Trade</h2>
-                <form id="tradeForm">
-                    <div class="form-group">
-                        <label for="strumento">Strumento Finanziario:</label>
-                        <select id="strumento" required>
-                            <option value="">Seleziona strumento</option>
-                            <option value="EUR/USD">EUR/USD</option>
-                            <option value="XAU/USD">XAU/USD (Oro)</option>
-                            <option value="BTC/USD">BTC/USD (Bitcoin)</option>
-                            <option value="GBP/NZD">GBP/NZD</option>
-                            <option value="EUR/CHF">EUR/CHF</option>
-                            <option value="altro">Altro (inserisci manualmente)</option>
-                        </select>
-                        <input type="text" id="strumentoCustom" placeholder="Inserisci strumento personalizzato" style="display:none;">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="timeframe">Timeframe:</label>
-                        <select id="timeframe" required>
-                            <option value="">Seleziona timeframe</option>
-                            <option value="M1">M1 (1 minuto)</option>
-                            <option value="M5">M5 (5 minuti)</option>
-                            <option value="M15">M15 (15 minuti)</option>
-                            <option value="M30">M30 (30 minuti)</option>
-                            <option value="H1">H1 (1 ora)</option>
-                            <option value="H4">H4 (4 ore)</option>
-                            <option value="D1">D1 (Giornaliero)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="segnale">Tipo Segnale:</label>
-                        <select id="segnale" required>
-                            <option value="">Seleziona segnale</option>
-                            <option value="BUY">🟢 BUY</option>
-                            <option value="SELL">🔴 SELL</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="note">Note Aggiuntive:</label>
-                        <textarea id="note" rows="3" placeholder="Note opzionali sul trade..."></textarea>
-                    </div>
-
-                    <button type="submit" class="btn-primary">💾 Salva Trade</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="registro-section">
-            <div class="registro-header">
-                <h2>📈 Registro Trade</h2>
-                <button class="btn-export" onclick="esportaCSV()">📤 Esporta CSV</button>
-            </div>
-
-            <div class="statistiche">
-                <div class="stat-card">
-                    <div class="stat-numero" id="statTotale">0</div>
-                    <div class="stat-label">Trade Totali</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-numero" id="statVerdi">0</div>
-                    <div class="stat-label">Semaforo Verde</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-numero" id="statGialli">0</div>
-                    <div class="stat-label">Semaforo Giallo</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-numero" id="statRossi">0</div>
-                    <div class="stat-label">Semaforo Rosso</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-numero" id="statWinRate">0%</div>
-                    <div class="stat-label">Win Rate</div>
-                </div>
-            </div>
-
-            <div class="tabella-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Data/Ora</th>
-                            <th>Strumento</th>
-                            <th>TF</th>
-                            <th>Segnale</th>
-                            <th>Semaforo</th>
-                            <th>Esito</th>
-                            <th>Note</th>
-                        </tr>
-                    </thead>
-                    <tbody id="registroBody">
-                        <!-- Trade popolati dinamicamente -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
     </div>
 
-    <script>
-        let parametri = {
-            strength: null,
-            trend: null,
-            volume: null,
-            momentum: null,
-            risk: null
-        };
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>Trading Strategy Dashboard</h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="themeToggle" aria-label="Cambia tema">
+                    🌙
+                </button>
+            </div>
+        </div>
+    </header>
 
-        let trades = JSON.parse(localStorage.getItem('trades')) || [];
+    <!-- Main Dashboard -->
+    <main class="dashboard-main">
+        <!-- Strategy Configuration -->
+        <section class="card strategy-section" data-section="strategy">
+            <div class="card-header">
+                <h2 class="card-title">Configurazione Strategia</h2>
+            </div>
+            <div class="card-content">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="initialBalance" class="form-label">Saldo Iniziale ($)</label>
+                        <input type="number" id="initialBalance" class="form-control" value="10000" min="1000" step="1000">
+                    </div>
+                    <div class="form-group">
+                        <label for="riskPerTrade" class="form-label">Risk per Trade (%)</label>
+                        <input type="number" id="riskPerTrade" class="form-control" value="2" min="0.5" max="10" step="0.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="winRate" class="form-label">Win Rate (%)</label>
+                        <input type="number" id="winRate" class="form-control" value="60" min="0" max="100" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="avgWin" class="form-label">Media Vincite (%)</label>
+                        <input type="number" id="avgWin" class="form-control" value="3" min="0.1" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="avgLoss" class="form-label">Media Perdite (%)</label>
+                        <input type="number" id="avgLoss" class="form-control" value="2" min="0.1" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="numTrades" class="form-label">Numero Trade</label>
+                        <input type="number" id="numTrades" class="form-control" value="100" min="10" max="1000" step="10">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" id="generateBtn">Genera Simulazione</button>
+                    <button class="btn btn-secondary" id="monteCarloBtn">Simulazione Monte Carlo</button>
+                </div>
+            </div>
+        </section>
 
-        function setParametro(nome, valore) {
-            parametri[nome] = valore;
-            
-            // Aggiorna UI dei bottoni
-            const parametroDiv = event.target.closest('.parametro');
-            const bottoni = parametroDiv.querySelectorAll('.btn-parametro');
-            bottoni.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            calcolaSemaforo();
-        }
-
-        function calcolaSemaforo() {
-            const valori = Object.values(parametri);
-            const positivi = valori.filter(v => v === true).length;
-            const negativi = valori.filter(v => v === false).length;
-            const nonValutati = valori.filter(v => v === null).length;
-
-            const risultatoDiv = document.getElementById('risultatoSemaforo');
-            
-            if (nonValutati > 0) {
-                risultatoDiv.className = 'risultato-semaforo grigio';
-                risultatoDiv.innerHTML = `🚦 Valuta tutti i parametri (${5 - nonValutati}/5)`;
-                return null;
-            }
-
-            let colore, messaggio;
-            
-            if (positivi >= 4) {
-                colore = 'verde';
-                messaggio = `🟢 SEMAFORO VERDE (${positivi}/5) - PROBABILITÀ ALTA`;
-            } else if (positivi === 3) {
-                colore = 'giallo';
-                messaggio = `🟡 SEMAFORO GIALLO (${positivi}/5) - PRUDENZA`;
-            } else {
-                colore = 'rosso';
-                messaggio = `🔴 SEMAFORO ROSSO (${positivi}/5) - EVITARE`;
-            }
-
-            risultatoDiv.className = `risultato-semaforo ${colore}`;
-            risultatoDiv.innerHTML = messaggio;
-            
-            return colore.toUpperCase();
-        }
-
-        function resetParametri() {
-            parametri = {
-                strength: null,
-                trend: null,
-                volume: null,
-                momentum: null,
-                risk: null
-            };
-
-            // Reset UI
-            document.querySelectorAll('.btn-parametro').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            document.getElementById('risultatoSemaforo').className = 'risultato-semaforo grigio';
-            document.getElementById('risultatoSemaforo').innerHTML = '🚦 Valuta i parametri per vedere il risultato';
-        }
-
-        // Gestione strumento personalizzato
-        document.getElementById('strumento').addEventListener('change', function() {
-            const customInput = document.getElementById('strumentoCustom');
-            if (this.value === 'altro') {
-                customInput.style.display = 'block';
-                customInput.required = true;
-            } else {
-                customInput.style.display = 'none';
-                customInput.required = false;
-                customInput.value = '';
-            }
-        });
-
-        // Gestione form
-        document.getElementById('tradeForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const semaforoRisultato = calcolaSemaforo();
-            if (!semaforoRisultato) {
-                alert('⚠️ Completa prima la valutazione di tutti i parametri!');
-                return;
-            }
-
-            const strumentoSelect = document.getElementById('strumento');
-            const strumentoCustom = document.getElementById('strumentoCustom');
-            
-            let strumentoFinale;
-            if (strumentoSelect.value === 'altro') {
-                strumentoFinale = strumentoCustom.value;
-            } else {
-                strumentoFinale = strumentoSelect.value;
-            }
-
-            const trade = {
-                id: Date.now(),
-                data: new Date().toLocaleString('it-IT'),
-                strumento: strumentoFinale,
-                timeframe: document.getElementById('timeframe').value,
-                segnale: document.getElementById('segnale').value,
-                semaforo: semaforoRisultato,
-                esito: 'APERTO',
-                note: document.getElementById('note').value || '-'
-            };
-
-            trades.push(trade);
-            localStorage.setItem('trades', JSON.stringify(trades));
-            
-            aggiornaRegistro();
-            aggiornaStatistiche();
-            
-            // Reset form e parametri
-            this.reset();
-            resetParametri();
-            document.getElementById('strumentoCustom').style.display = 'none';
-            
-            alert('✅ Trade salvato con successo!');
-        });
-
-        function aggiornaEsito(tradeId, esito) {
-            const tradeIndex = trades.findIndex(t => t.id === tradeId);
-            if (tradeIndex !== -1) {
-                trades[tradeIndex].esito = esito;
-                localStorage.setItem('trades', JSON.stringify(trades));
-                aggiornaRegistro();
-                aggiornaStatistiche();
-            }
-        }
-
-        function aggiornaRegistro() {
-            const tbody = document.getElementById('registroBody');
-            tbody.innerHTML = '';
-
-            trades.slice().reverse().forEach(trade => {
-                const row = document.createElement('tr');
-                
-                // Applica classe CSS in base all'esito
-                if (trade.esito === 'TP') {
-                    row.classList.add('trade-tp');
-                } else if (trade.esito === 'SL') {
-                    row.classList.add('trade-sl');
-                } else if (trade.esito === 'BE') {
-                    row.classList.add('trade-be');
-                }
-
-                const semaforoIcon = trade.semaforo === 'VERDE' ? '🟢' : 
-                                   trade.semaforo === 'GIALLO' ? '🟡' : '🔴';
-                
-                const segnaleIcon = trade.segnale === 'BUY' ? '🟢' : '🔴';
-
-                row.innerHTML = `
-                    <td>${trade.data}</td>
-                    <td>${trade.strumento}</td>
-                    <td>${trade.timeframe}</td>
-                    <td>${segnaleIcon} ${trade.segnale}</td>
-                    <td>${semaforoIcon} ${trade.semaforo}</td>
-                    <td>
-                        <div class="esito-buttons">
-                            <button class="btn-esito btn-tp ${trade.esito === 'TP' ? 'active' : ''}" 
-                                    onclick="aggiornaEsito(${trade.id}, 'TP')">🎯 TP</button>
-                            <button class="btn-esito btn-sl ${trade.esito === 'SL' ? 'active' : ''}" 
-                                    onclick="aggiornaEsito(${trade.id}, 'SL')">🛑 SL</button>
-                            <button class="btn-esito btn-be ${trade.esito === 'BE' ? 'active' : ''}" 
-                                    onclick="aggiornaEsito(${trade.id}, 'BE')">⚖️ BE</button>
+        <!-- Risk Management -->
+        <section class="card risk-section" data-section="risk">
+            <div class="card-header">
+                <h2 class="card-title">Risk Management</h2>
+            </div>
+            <div class="card-content">
+                <div class="risk-indicators">
+                    <div class="risk-indicator">
+                        <div class="risk-icon">⚠️</div>
+                        <div class="risk-info">
+                            <span class="risk-label">Max Drawdown Atteso</span>
+                            <span class="risk-value" id="maxDrawdownRisk">-</span>
                         </div>
-                        <div style="margin-top: 5px; font-size: 0.9em; color: #666;">
-                            ${trade.esito}
+                    </div>
+                    <div class="risk-indicator">
+                        <div class="risk-icon">📊</div>
+                        <div class="risk-info">
+                            <span class="risk-label">Sharpe Ratio</span>
+                            <span class="risk-value" id="sharpeRatioRisk">-</span>
                         </div>
-                    </td>
-                    <td>${trade.note}</td>
-                `;
-                
-                tbody.appendChild(row);
-            });
-        }
+                    </div>
+                    <div class="risk-indicator">
+                        <div class="risk-icon">💰</div>
+                        <div class="risk-info">
+                            <span class="risk-label">Profit Factor</span>
+                            <span class="risk-value" id="profitFactorRisk">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        function aggiornaStatistiche() {
-            const totale = trades.length;
-            const verdi = trades.filter(t => t.semaforo === 'VERDE').length;
-            const gialli = trades.filter(t => t.semaforo === 'GIALLO').length;
-            const rossi = trades.filter(t => t.semaforo === 'ROSSO').length;
-            
-            const tradesChiusi = trades.filter(t => t.esito === 'TP' || t.esito === 'SL');
-            const tradesVinti = trades.filter(t => t.esito === 'TP').length;
-            const winRate = tradesChiusi.length > 0 ? Math.round((tradesVinti / tradesChiusi.length) * 100) : 0;
+        <!-- Key Metrics -->
+        <section class="metrics-section" data-section="metrics">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-content">
+                        <span class="metric-label">Saldo Finale</span>
+                        <span class="metric-value" id="finalBalance">$0</span>
+                        <span class="metric-change" id="finalBalanceChange">0%</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">📈</div>
+                    <div class="metric-content">
+                        <span class="metric-label">Profitto Totale</span>
+                        <span class="metric-value" id="totalProfit">$0</span>
+                        <span class="metric-change" id="totalProfitChange">0%</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">📉</div>
+                    <div class="metric-content">
+                        <span class="metric-label">Max Drawdown</span>
+                        <span class="metric-value" id="maxDrawdown">0%</span>
+                        <span class="metric-change negative" id="maxDrawdownChange">0%</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">🎯</div>
+                    <div class="metric-content">
+                        <span class="metric-label">Win Rate Reale</span>
+                        <span class="metric-value" id="actualWinRate">0%</span>
+                        <span class="metric-change" id="winRateChange">0%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            document.getElementById('statTotale').textContent = totale;
-            document.getElementById('statVerdi').textContent = verdi;
-            document.getElementById('statGialli').textContent = gialli;
-            document.getElementById('statRossi').textContent = rossi;
-            document.getElementById('statWinRate').textContent = winRate + '%';
-        }
+        <!-- Equity Chart -->
+        <section class="card chart-section" data-section="chart">
+            <div class="card-header">
+                <h2 class="card-title">Curva Equity</h2>
+                <div class="chart-controls">
+                    <button class="btn btn-sm btn-outline" id="resetZoom">Reset Zoom</button>
+                    <button class="btn btn-sm btn-outline" id="exportChart">Esporta</button>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="equity-chart-container">
+                    <canvas id="equityChart"></canvas>
+                </div>
+            </div>
+        </section>
 
-        function esportaCSV() {
-            if (trades.length === 0) {
-                alert('⚠️ Nessun trade da esportare!');
-                return;
-            }
+        <!-- Statistics -->
+        <section class="card stats-section" data-section="stats">
+            <div class="card-header">
+                <h2 class="card-title">Statistiche Dettagliate</h2>
+            </div>
+            <div class="card-content">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">Numero Trade Totali</span>
+                        <span class="stat-value" id="totalTrades">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Trade Vincenti</span>
+                        <span class="stat-value" id="winningTrades">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Trade Perdenti</span>
+                        <span class="stat-value" id="losingTrades">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Profit Factor</span>
+                        <span class="stat-value" id="profitFactor">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Sharpe Ratio</span>
+                        <span class="stat-value" id="sharpeRatio">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Calmar Ratio</span>
+                        <span class="stat-value" id="calmarRatio">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Maggiore Serie Vincente</span>
+                        <span class="stat-value" id="maxWinStreak">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Maggiore Serie Perdente</span>
+                        <span class="stat-value" id="maxLossStreak">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            const headers = ['Data', 'Strumento', 'Timeframe', 'Segnale', 'Semaforo', 'Esito', 'Note'];
-            const csvContent = [
-                headers.join(','),
-                ...trades.map(trade => [
-                    `"${trade.data}"`,
-                    `"${trade.strumento}"`,
-                    `"${trade.timeframe}"`,
-                    `"${trade.segnale}"`,
-                    `"${trade.semaforo}"`,
-                    `"${trade.esito}"`,
-                    `"${trade.note}"`
-                ].join(','))
-            ].join('\n');
+        <!-- Comparison Table -->
+        <section class="card comparison-section" data-section="comparison">
+            <div class="card-header">
+                <h2 class="card-title">Confronto Scenari</h2>
+                <button class="btn btn-sm btn-primary" id="addScenario">Aggiungi Scenario</button>
+            </div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th>Win Rate</th>
+                                <th>Risk/Trade</th>
+                                <th>Avg Win</th>
+                                <th>Avg Loss</th>
+                                <th>Saldo Finale</th>
+                                <th>Max Drawdown</th>
+                                <th>Sharpe Ratio</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scenarioTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
 
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', `semaforo_trading_${new Date().toISOString().split('T')[0]}.csv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // Inizializzazione
-        document.addEventListener('DOMContentLoaded', function() {
-            aggiornaRegistro();
-            aggiornaStatistiche();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
