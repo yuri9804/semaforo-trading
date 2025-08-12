@@ -3,227 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Strategy Dashboard</title>
+    <title>Trading Strategy Dashboard Pro</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner"></div>
+<body data-theme="light">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Generando simulazione...</p>
+        </div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <h1>Trading Strategy Dashboard</h1>
-            <div class="header-actions">
-                <button class="btn btn-secondary" id="themeToggle" aria-label="Cambia tema">
-                    🌙
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-title">TradePro</h2>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="menu-item active" data-section="dashboard">
+                <span class="menu-icon">📊</span>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="#" class="menu-item" data-section="strategy">
+                <span class="menu-icon">⚙️</span>
+                <span class="menu-text">Strategia</span>
+            </a>
+            <a href="#" class="menu-item" data-section="analysis">
+                <span class="menu-icon">📈</span>
+                <span class="menu-text">Analisi</span>
+            </a>
+            <a href="#" class="menu-item" data-section="scenarios">
+                <span class="menu-icon">🔄</span>
+                <span class="menu-text">Scenari</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <button class="theme-toggle" id="themeToggle">
+                <span class="theme-icon">🌙</span>
+                <span class="theme-text">Tema Scuro</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1 class="page-title">Dashboard Trading</h1>
+                <p class="page-subtitle">Analizza e ottimizza le tue strategie</p>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-outline btn-sm" id="exportData">
+                    📤 Esporta
+                </button>
+                <button class="btn btn-primary btn-sm" id="newSimulation">
+                    ✨ Nuova Simulazione
                 </button>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- Main Dashboard -->
-    <main class="dashboard-main">
-        <!-- Strategy Configuration -->
-        <section class="card strategy-section" data-section="strategy">
-            <div class="card-header">
-                <h2 class="card-title">Configurazione Strategia</h2>
-            </div>
-            <div class="card-content">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="initialBalance" class="form-label">Saldo Iniziale ($)</label>
-                        <input type="number" id="initialBalance" class="form-control" value="10000" min="1000" step="1000">
-                    </div>
-                    <div class="form-group">
-                        <label for="riskPerTrade" class="form-label">Risk per Trade (%)</label>
-                        <input type="number" id="riskPerTrade" class="form-control" value="2" min="0.5" max="10" step="0.5">
-                    </div>
-                    <div class="form-group">
-                        <label for="winRate" class="form-label">Win Rate (%)</label>
-                        <input type="number" id="winRate" class="form-control" value="60" min="0" max="100" step="1">
-                    </div>
-                    <div class="form-group">
-                        <label for="avgWin" class="form-label">Media Vincite (%)</label>
-                        <input type="number" id="avgWin" class="form-control" value="3" min="0.1" step="0.1">
-                    </div>
-                    <div class="form-group">
-                        <label for="avgLoss" class="form-label">Media Perdite (%)</label>
-                        <input type="number" id="avgLoss" class="form-control" value="2" min="0.1" step="0.1">
-                    </div>
-                    <div class="form-group">
-                        <label for="numTrades" class="form-label">Numero Trade</label>
-                        <input type="number" id="numTrades" class="form-control" value="100" min="10" max="1000" step="10">
+        <!-- Dashboard Content -->
+        <div class="dashboard-grid">
+            <!-- Quick Stats -->
+            <section class="stats-overview">
+                <div class="stat-card profit">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-content">
+                        <h3 class="stat-title">Profitto Totale</h3>
+                        <p class="stat-value" id="totalProfitStat">$0</p>
+                        <span class="stat-change positive" id="profitChange">+0%</span>
                     </div>
                 </div>
-                <div class="form-actions">
-                    <button class="btn btn-primary" id="generateBtn">Genera Simulazione</button>
-                    <button class="btn btn-secondary" id="monteCarloBtn">Simulazione Monte Carlo</button>
+                <div class="stat-card drawdown">
+                    <div class="stat-icon">📉</div>
+                    <div class="stat-content">
+                        <h3 class="stat-title">Max Drawdown</h3>
+                        <p class="stat-value" id="drawdownStat">0%</p>
+                        <span class="stat-change negative" id="drawdownChange">0%</span>
+                    </div>
                 </div>
-            </div>
-        </section>
+                <div class="stat-card winrate">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-content">
+                        <h3 class="stat-title">Win Rate</h3>
+                        <p class="stat-value" id="winrateStat">0%</p>
+                        <span class="stat-change" id="winrateChange">0%</span>
+                    </div>
+                </div>
+                <div class="stat-card sharpe">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <h3 class="stat-title">Sharpe Ratio</h3>
+                        <p class="stat-value" id="sharpeStat">0.00</p>
+                        <span class="stat-change" id="sharpeChange">0.00</span>
+                    </div>
+                </div>
+            </section>
 
-        <!-- Risk Management -->
-        <section class="card risk-section" data-section="risk">
-            <div class="card-header">
-                <h2 class="card-title">Risk Management</h2>
-            </div>
-            <div class="card-content">
-                <div class="risk-indicators">
-                    <div class="risk-indicator">
-                        <div class="risk-icon">⚠️</div>
-                        <div class="risk-info">
-                            <span class="risk-label">Max Drawdown Atteso</span>
-                            <span class="risk-value" id="maxDrawdownRisk">-</span>
+            <!-- Strategy Configuration -->
+            <section class="config-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Configurazione Strategia</h2>
+                    <div class="panel-actions">
+                        <button class="btn btn-ghost btn-sm" id="resetConfig">Reset</button>
+                        <button class="btn btn-primary btn-sm" id="saveConfig">Salva</button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div class="config-grid">
+                        <div class="input-group">
+                            <label class="input-label">Capitale Iniziale</label>
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="number" class="input-field" id="initialBalance" value="10000" min="1000" step="1000">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Risk per Trade</label>
+                            <div class="input-wrapper">
+                                <input type="number" class="input-field" id="riskPerTrade" value="2" min="0.5" max="10" step="0.5">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Win Rate Atteso</label>
+                            <div class="input-wrapper">
+                                <input type="number" class="input-field" id="winRate" value="60" min="0" max="100" step="1">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Media Vincite</label>
+                            <div class="input-wrapper">
+                                <input type="number" class="input-field" id="avgWin" value="3" min="0.1" step="0.1">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Media Perdite</label>
+                            <div class="input-wrapper">
+                                <input type="number" class="input-field" id="avgLoss" value="2" min="0.1" step="0.1">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Numero Trade</label>
+                            <div class="input-wrapper">
+                                <input type="number" class="input-field" id="numTrades" value="100" min="10" max="1000" step="10">
+                            </div>
                         </div>
                     </div>
-                    <div class="risk-indicator">
-                        <div class="risk-icon">📊</div>
-                        <div class="risk-info">
-                            <span class="risk-label">Sharpe Ratio</span>
-                            <span class="risk-value" id="sharpeRatioRisk">-</span>
-                        </div>
-                    </div>
-                    <div class="risk-indicator">
-                        <div class="risk-icon">💰</div>
-                        <div class="risk-info">
-                            <span class="risk-label">Profit Factor</span>
-                            <span class="risk-value" id="profitFactorRisk">-</span>
-                        </div>
+                    <div class="config-actions">
+                        <button class="btn btn-secondary" id="generateBtn">
+                            🎲 Simulazione Standard
+                        </button>
+                        <button class="btn btn-primary" id="monteCarloBtn">
+                            🔥 Monte Carlo (50 sim)
+                        </button>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Key Metrics -->
-        <section class="metrics-section" data-section="metrics">
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-icon">💰</div>
-                    <div class="metric-content">
-                        <span class="metric-label">Saldo Finale</span>
-                        <span class="metric-value" id="finalBalance">$0</span>
-                        <span class="metric-change" id="finalBalanceChange">0%</span>
+            <!-- Chart Section -->
+            <section class="chart-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Curva Equity</h2>
+                    <div class="chart-controls">
+                        <button class="btn btn-ghost btn-sm" id="resetZoom">🔍 Reset</button>
+                        <button class="btn btn-ghost btn-sm" id="fullscreen">⛶ Fullscreen</button>
+                        <button class="btn btn-outline btn-sm" id="exportChart">📸 Esporta</button>
                     </div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-icon">📈</div>
-                    <div class="metric-content">
-                        <span class="metric-label">Profitto Totale</span>
-                        <span class="metric-value" id="totalProfit">$0</span>
-                        <span class="metric-change" id="totalProfitChange">0%</span>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon">📉</div>
-                    <div class="metric-content">
-                        <span class="metric-label">Max Drawdown</span>
-                        <span class="metric-value" id="maxDrawdown">0%</span>
-                        <span class="metric-change negative" id="maxDrawdownChange">0%</span>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon">🎯</div>
-                    <div class="metric-content">
-                        <span class="metric-label">Win Rate Reale</span>
-                        <span class="metric-value" id="actualWinRate">0%</span>
-                        <span class="metric-change" id="winRateChange">0%</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Equity Chart -->
-        <section class="card chart-section" data-section="chart">
-            <div class="card-header">
-                <h2 class="card-title">Curva Equity</h2>
-                <div class="chart-controls">
-                    <button class="btn btn-sm btn-outline" id="resetZoom">Reset Zoom</button>
-                    <button class="btn btn-sm btn-outline" id="exportChart">Esporta</button>
-                </div>
-            </div>
-            <div class="card-content">
-                <div class="equity-chart-container">
+                <div class="chart-container">
                     <canvas id="equityChart"></canvas>
+                    <div class="chart-overlay" id="chartOverlay">
+                        <div class="overlay-content">
+                            <div class="overlay-icon">📈</div>
+                            <h3>Genera una simulazione</h3>
+                            <p>Configura i parametri e clicca su "Simulazione Standard" per iniziare</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Statistics -->
-        <section class="card stats-section" data-section="stats">
-            <div class="card-header">
-                <h2 class="card-title">Statistiche Dettagliate</h2>
-            </div>
-            <div class="card-content">
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <span class="stat-label">Numero Trade Totali</span>
-                        <span class="stat-value" id="totalTrades">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Trade Vincenti</span>
-                        <span class="stat-value" id="winningTrades">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Trade Perdenti</span>
-                        <span class="stat-value" id="losingTrades">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Profit Factor</span>
-                        <span class="stat-value" id="profitFactor">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Sharpe Ratio</span>
-                        <span class="stat-value" id="sharpeRatio">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Calmar Ratio</span>
-                        <span class="stat-value" id="calmarRatio">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Maggiore Serie Vincente</span>
-                        <span class="stat-value" id="maxWinStreak">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Maggiore Serie Perdente</span>
-                        <span class="stat-value" id="maxLossStreak">0</span>
+            <!-- Risk Metrics -->
+            <section class="risk-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Risk Management</h2>
+                    <div class="risk-indicator" id="riskLevel">
+                        <span class="risk-dot low"></span>
+                        <span class="risk-text">Rischio Basso</span>
                     </div>
                 </div>
-            </div>
-        </section>
+                <div class="panel-content">
+                    <div class="risk-metrics">
+                        <div class="risk-item">
+                            <div class="risk-label">
+                                <span class="risk-icon">⚠️</span>
+                                <span>Drawdown Massimo Atteso</span>
+                            </div>
+                            <div class="risk-value" id="expectedDrawdown">-</div>
+                        </div>
+                        <div class="risk-item">
+                            <div class="risk-label">
+                                <span class="risk-icon">📊</span>
+                                <span>Sharpe Ratio Teorico</span>
+                            </div>
+                            <div class="risk-value" id="theoreticalSharpe">-</div>
+                        </div>
+                        <div class="risk-item">
+                            <div class="risk-label">
+                                <span class="risk-icon">💎</span>
+                                <span>Profit Factor Atteso</span>
+                            </div>
+                            <div class="risk-value" id="expectedProfitFactor">-</div>
+                        </div>
+                        <div class="risk-item">
+                            <div class="risk-label">
+                                <span class="risk-icon">🎲</span>
+                                <span>Probabilità Rovina</span>
+                            </div>
+                            <div class="risk-value" id="ruinProbability">-</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- Comparison Table -->
-        <section class="card comparison-section" data-section="comparison">
-            <div class="card-header">
-                <h2 class="card-title">Confronto Scenari</h2>
-                <button class="btn btn-sm btn-primary" id="addScenario">Aggiungi Scenario</button>
-            </div>
-            <div class="card-content">
-                <div class="table-container">
-                    <table class="comparison-table">
-                        <thead>
-                            <tr>
-                                <th>Scenario</th>
-                                <th>Win Rate</th>
-                                <th>Risk/Trade</th>
-                                <th>Avg Win</th>
-                                <th>Avg Loss</th>
-                                <th>Saldo Finale</th>
-                                <th>Max Drawdown</th>
-                                <th>Sharpe Ratio</th>
-                                <th>Azioni</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scenarioTableBody">
-                        </tbody>
-                    </table>
+            <!-- Detailed Stats -->
+            <section class="details-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Statistiche Dettagliate</h2>
                 </div>
-            </div>
-        </section>
+                <div class="panel-content">
+                    <div class="stats-grid">
+                        <div class="detail-stat">
+                            <span class="detail-label">Trade Totali</span>
+                            <span class="detail-value" id="totalTrades">-</span>
+                        </div>
+                        <div class="detail-stat">
+                            <span class="detail-label">Trade Vincenti</span>
+                            <span class="detail-value text-success" id="winningTrades">-</span>
+                        </div>
+                        <div class="detail-stat">
+                            <span class="detail-label">Trade Perdenti</span>
+                            <span class="detail-value text-danger" id="losingTrades">-</span>
+                        </div>
+                        <div class="detail-stat">
+                            <span class="detail-label">Profit Factor</span>
+                            <span class="detail-value" id="profitFactor">-</span>
+                        </div>
+                        <div class="detail-stat">
+                            <span class="detail-label">Calmar Ratio</span>
+                            <span class="detail-value" id="calmarRatio">-</span>
+                        </div>
+                        <div class="detail-stat">
+                            <span class="detail-label">Recovery Factor</span>
+                            <span class="detail-value" id="recoveryFactor">-</span>
+                        </div>
+                        <div class="detail-stat">
+                            <span class="detail-label">Serie Vincente Max</span>
+                            <span class="detail-value" id="maxWinStreak">-</span>
+                        </div>
+                        <div class="detail-stat">
+                            <span class="detail-label">Serie Perdente Max</span>
+                            <span class="detail-value" id="maxLossStreak">-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scenarios Comparison -->
+            <section class="scenarios-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Confronto Scenari</h2>
+                    <button class="btn btn-primary btn-sm" id="addScenario">
+                        ➕ Aggiungi Scenario
+                    </button>
+                </div>
+                <div class="panel-content">
+                    <div class="scenarios-table-wrapper">
+                        <table class="scenarios-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Win Rate</th>
+                                    <th>Risk/Trade</th>
+                                    <th>Profitto</th>
+                                    <th>Drawdown</th>
+                                    <th>Sharpe</th>
+                                    <th>Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scenariosTableBody">
+                                <tr class="empty-state">
+                                    <td colspan="7">
+                                        <div class="empty-content">
+                                            <div class="empty-icon">📋</div>
+                                            <p>Nessuno scenario salvato</p>
+                                            <small>Genera una simulazione e clicca "Aggiungi Scenario"</small>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
 
     <script src="script.js"></script>
 </body>
